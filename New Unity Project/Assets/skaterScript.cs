@@ -8,7 +8,9 @@ public class skaterScript : MonoBehaviour
 
     Rigidbody rb;
 
-    public float pushForce;
+    public float pushForce, steeringAmount, secretSpeed;
+
+    float jumpForce = 0;
     // Start is called before the first frame update
     void Start()
     {
@@ -23,6 +25,7 @@ public class skaterScript : MonoBehaviour
         if (Input.GetKey(KeyCode.W))
         {
             anim.SetBool("push", true);
+            rb.AddForce(transform.forward * secretSpeed, ForceMode.Force);
         }
         else
         {
@@ -36,6 +39,26 @@ public class skaterScript : MonoBehaviour
         else
         {
             anim.SetBool("braking", false);
+        }
+
+        if (Input.GetKey(KeyCode.A))
+        {
+            transform.Rotate(new Vector3(0, -3, 0));
+        }
+
+        if (Input.GetKey(KeyCode.D))
+        {
+            transform.Rotate(new Vector3(0, 3, 0));
+        }
+
+        if (Input.GetKey(KeyCode.Space))
+        {
+            jumpForce = jumpForce + 1f;
+        }
+        if (Input.GetKeyUp(KeyCode.Space))
+        {
+            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            jumpForce = 0;
         }
     }
 
